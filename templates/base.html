@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css\reset.css" %}">
+    <link rel="stylesheet" href="{% static "css\default.css" %}">
+    <link rel="stylesheet" href="{% static "css\main\search.css" %}">
+    {% block css %}
+    <link rel="stylesheet" href="{% static "css\main\style.css" %}">
+    {% endblock css %}
+    <title>{% block title %}{{title}}{% endblock title %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-btn-l">
+                <li><a href="{% url 'main:mainhome' %}" style="font-weight: 600;">Главная</a></li>
+                <li><a href="{% url 'product:producthome' %}">Товары</a></li>
+                <li><a href="{% url 'services:serviceshome' %}">Услуги</a></li>
+                <li><a target="_blank" href="https://aurorix.net/">Партнёры</a></li>
+            </ul>
+            <ul class="nav-btn-r">
+                <ul class="social-web-btn">
+                    <li><a href=""><img src="/static/img/main/ВКонтакте.png" alt=""></a></li>
+                    <li><a href=""><img src="/static/img/main/YouTube.png" alt=""></a></li>
+                </ul>
+                <li>
+                    <form id="search-form" action="/search/" method="get">
+                        <div class="search-container">
+                            <input type="text" id="search-input" name="q" placeholder="Поиск">
+                            <img src="/static/img/main/Иконка.png" class="input-icon" alt="icon">
+                        </div>
+                    </form>
+                </li>               
+                <li class="cart-container">
+                    <a href="{% url 'cart:view_cart' %}">
+                        <img src="/static/img/main/Корзина.png" alt="">
+                        {% if cart_count > 0 %}
+                            <span class="cart-count">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div id="search-results"></div>
+    </header>
+    {% block main %}
+    <main>
+        <div class="block-top">
+            <div class="container">
+                <div class="ui-block">
+                    <div class="text">
+                        <h1>Интернет <span style="color: #F8DC4A;">магазин <br>готовых разработок</span><br> для Minecraft проектов!</h1>
+                        <p>Воплощайте свои мечты в реальность, вместе с нами! <br> Быстро, качественно, недорого. Выберите два условия!</p>
+                    </div>
+                    <a href="{% url 'product:producthome' %}">Просмотреть ассортимент</a>
+                </div>
+                <div class="video-tr">
+                    <img src="/static/img/main/Включить.png" alt="">
+                </div>
+            </div>
+            <div class="advantages">
+                <p>
+                    <span class="number-adv">100+ </span>
+                    <span class="text-adv"> успешно <br> выполненных заказов </span>
+                </p>
+                <p>
+                    <span class="number-adv">50+ </span>
+                    <span>положительных <br>отзывов о нас</span>
+                </p>
+                <p>
+                    <span class="number-adv">24/7 </span>
+                    <span>работает <br> техническая поддержка</span>
+                </p>
+                <p>
+                    <span class="number-adv">6+ </span>
+                    <span>месяцев <br> успешной работы</span>
+                </p>
+            </div>
+            
+        </div>
+        <div class="block-bottom">
+            <div class="container">
+                <h1>Доступные категории</h1>
+                <div class="block-card">
+                    <div class="card">
+                        <div class="ui-block">
+                            <div class="text">
+                                <h2>Категория — Товары</h2>
+                                <p>Сборки и плагины с автоматической <br> системой оплаты и выдачи</p>
+                            </div>
+                            <a href="">Кнопка категории главной</a>
+                        </div>
+                        <img src="/static/img/main/b.png" alt="">
+                    </div>
+                    <div class="card">
+                        <div class="ui-block">
+                            <div class="text">
+                                <h2>Категория — Услуги</h2>
+                                <p>Дизайн, постройки на заказ <br> с портфолио на каждую услугу</p>
+                            </div>
+                            <a href="#">Кнопка категории главной</a>
+                        </div>
+                        <img src="/static/img/main/a.png" alt="">
+                </div>
+            </div>
+        </div>
+    </main> 
+    {% endblock main %}
+    <footer>
+        <div class="left-info">
+            <img src="/static/img/main/Логотип.png" alt="" width="115px" height="100px">
+            <div class="text">
+                <h2>2023 CloudDelight — Создание Minecraft серверов</h2>
+                <h3>CloudDelight не связан с Mojang, коммерческая деятельность кампании соответствует правилам Mojang</h3>
+            </div>
+        </div>
+        <div class="right-info">
+            <div class="card">
+                <h1>О студии</h1>
+                <div class="text">
+                    <a href="{% url 'main:polzview' %}">Пользовательское соглашение</a>
+                    <a href="{% url 'main:poltview' %}">Политика конфиденциальности</a>
+                    <a href="https://vk.com/@cloud_delight-portfoliokeisy" target="_blank">Портфолио</a>
+                </div>
+            </div>
+            <div class="card">
+                <h1>Полезные статьи</h1>
+                <div class="text">
+                    <a href="">Бесплатные товары</a>
+                    <a href="">Промокоды</a>
+                    <a href="https://vk.com/topic-218636246_49034650" target="_blank">Отзывы</a>
+                </div>
+            </div>
+            <div class="card">
+                <h1>Контакты</h1>
+                <div class="text">
+                    <a href="">Почта — <span class="mail">cloud.delight@yandex.ru</span></a>
+                    <a href="">VK — vk.com/x0v_gordeev0x</a>
+                    <a href="">Discord — discord.gg/yXzyKpcx2m</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static "js/js.js" %}"></script>
+</body>
+</html>

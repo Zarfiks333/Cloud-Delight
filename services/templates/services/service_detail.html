@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+    <link rel="stylesheet" href="{% static "css\services\style-service.css" %}">
+    {% endblock css %}
+    <title>Document</title>
+</head>
+<body>
+    {% block main %}
+    <main>
+        <div class="block-top">
+            <div class="container">
+                <div class="ui-block">
+                    <div class="text">
+                        <h1>{{ service.name }}</h1>
+                        <p>{{ service.description }}</p>
+                        <h2>Цена: <span style="color: #F8DC4A;">от {{ service.price }}₽</span></h2>
+                    </div>
+                    <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Написать</a>
+                </div>
+                <div class="video-tr">
+                    <img src="/static/img/main/Включить.png" alt="">
+                </div>
+            </div>
+        </div>
+    </main> 
+    {% endblock main %}
+</body>
+</html>
