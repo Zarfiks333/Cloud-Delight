@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+    <link rel="stylesheet" href="{% static "css\product\category_detail.css" %}">
+    {% endblock css %}
+    <title>Document</title>
+</head>
+<body>
+    {% block main %}
+    <main>
+        <div class="block-top">
+            <div class="container">
+                <div class="ui-block">
+                    <div class="text">
+                        <h1>{{ category.name }}</h1>
+                        <p>{{ category.description }}</p>
+                    </div>
+                    <a href="#targetcenter-block">Просмотреть товары</a>
+                </div>
+                <img src="/static/img/main/Иконка (15).png" alt="" width="350px" height="350px">
+            </div>
+        </div>
+        <div class="block-bottom" id="targetcenter-block">
+            <div class="container">
+                <h1>Все товары</h1>
+                <div class="product-wrapper">
+                    <button class="arrow left-arrow">
+                        <img src="/static/img/main/Scroll.png" alt="">
+                    </button>
+                    <div class="product-container">
+                        <div class="product">
+                            {% for product in products %}
+                            <a href="{% url 'product:product_detail' category_slug=category.slug product_slug=product.slug %}" style="text-decoration: none;">
+                                <div class="card">
+                                    <div class="images">
+                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ product.name }}">
+                                    </div>
+                                    <div class="descriptions">
+                                        <div class="text">
+                                            <h3>{{ product.name }}</h3>
+                                            <p>{{ product.card_description }}</p>
+                                        </div>
+                                        <div class="pirce">
+                                            {% if product.price == 0 %}
+                                                <p>Бесплатно</p>
+                                                <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Забрать</a>
+                                            {% else %}
+                                                <p>
+                                                    {% if product.discount > 0 %}
+                                                        от {{ product.get_discounted_price|floatformat:0 }}₽
+                                                    {% else %}
+                                                        от {{ product.price }}₽
+                                                    {% endif %}
+                                                </p>
+                                                <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Купить</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <button class="arrow right-arrow">
+                        <img src="/static/img/main/Scroll (1).png" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="container">
+                <h1>Хиты продаж</h1>
+                <div class="product">
+                    {% for best_seller in best_sellers %}
+                    <a href="{% url 'product:product_detail' category_slug=best_seller.category.slug product_slug=best_seller.slug %}" style="text-decoration: none;">
+                        <div class="card">
+                            <div class="images">
+                                <img src="{% if best_seller.image %}{{ best_seller.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ best_seller.name }}">
+                            </div>
+                            <div class="descriptions">
+                                <div class="text">
+                                    <h3>{{ best_seller.name }}</h3>
+                                    <p>{{ best_seller.card_description }}</p>
+                                </div>
+                                <div class="pirce">
+                                    {% if best_seller.price == 0 %}
+                                        <p>Бесплатно</p>
+                                        <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Забрать</a>
+                                    {% else %}
+                                        <p>
+                                            {% if best_seller.discount > 0 %}
+                                                от {{ best_seller.get_discounted_price|floatformat:0 }}₽
+                                            {% else %}
+                                                от {{ best_seller.price }}₽
+                                            {% endif %}
+                                        </p>
+                                        <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Купить</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="container">
+                {% if products_with_discounts|length > 5 %}
+                <h1>Скидки</h1>
+                    <div class="product-wrapper">
+                        <div class="product-container">
+                            <button class="arrow left-arrow">
+                                <img src="/static/img/main/Scroll.png" alt="">
+                            </button>
+                            <div class="product">
+                                {% for products_with_discount in products_with_discounts %}
+                                <a href="{% url 'product:product_detail' category_slug=products_with_discount.category.slug product_slug=products_with_discount.slug %}" style="text-decoration: none;">
+                                    <div class="card">
+                                        <div class="images">
+                                            <img src="{% if products_with_discount.image %}{{ products_with_discount.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ products_with_discount.name }}">
+                                        </div>
+                                        <div class="descriptions">
+                                            <div class="text">
+                                                <h3>{{ products_with_discount.name }}</h3>
+                                                <p>{{ products_with_discount.card_description }}</p>
+                                            </div>
+                                            <div class="pirce">
+                                                <p>
+                                                    {% if products_with_discount.discount > 0 %}
+                                                        от {{ products_with_discount.get_discounted_price|floatformat:0 }}₽
+                                                    {% else %}
+                                                        от {{ products_with_discount.price }}₽
+                                                    {% endif %}
+                                                </p>
+                                                <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Написать</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            <button class="arrow right-arrow">
+                                <img src="/static/img/main/Scroll (1).png" alt="">
+                            </button>
+                        </div>
+                    </div>
+                {% else %}
+                    <h1>Скидки</h1>
+                    <div class="product">
+                        {% for products_with_discount in products_with_discounts %}
+                        <a href="{% url 'product:product_detail' category_slug=products_with_discount.category.slug product_slug=products_with_discount.slug %}" style="text-decoration: none;">
+                            <div class="card">
+                                <div class="images">
+                                    <img src="{% if products_with_discount.image %}{{ products_with_discount.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ products_with_discount.name }}">
+                                </div>
+                                <div class="descriptions">
+                                    <div class="text">
+                                        <h3>{{ products_with_discount.name }}</h3>
+                                        <p>{{ products_with_discount.card_description }}</p>
+                                    </div>
+                                    <div class="pirce">
+                                        <p>
+                                            {% if products_with_discount.discount > 0 %}
+                                                от {{ products_with_discount.get_discounted_price|floatformat:0 }}₽
+                                            {% else %}
+                                                от {{ products_with_discount.price }}₽
+                                            {% endif %}
+                                        </p>
+                                        <a href="https://vk.com/im/convo/-218636246?entrypoint=list_all">→ Купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>            
+        </div>
+    </main> 
+    {% endblock main %}
+</body>
+</html>

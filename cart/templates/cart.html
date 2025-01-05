@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+    <link rel="stylesheet" href="{% static "css\cart\style.css" %}">
+    {% endblock css %}
+    <title>Document</title>
+</head>
+<body>
+    {% block main %}
+    <main>
+        <div class="block-top">
+            <div class="container">
+                <div class="ui-block">
+                    <div class="text">
+                        <h1>Корзина</h1>
+                        <p>Корзина в которой отображаются <br>выбранные вами товары для покупки.</p>
+                    </div>
+                    <a href="#targetcenter-block">Оплатить</a>
+                </div>
+                <div class="cart-container">
+                    <img src="/static/img/main/Иконка (16).png" alt="" width="350px" height="350px">
+                    {% if cart_count > 0 %}
+                        <span class="cart-counts">{{ cart_count }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="block-bottom">
+            <div class="container">
+                <h1>Ваша корзина</h1>
+                {% if products_in_cart|length > 5 %}
+                <div class="product-wrapper">
+                    <div class="product-container">
+                        <button class="arrow left-arrow">
+                            <img src="/static/img/main/Scroll.png" alt="">
+                        </button>
+                        <div class="product">
+                            {% for product in products_in_cart %}
+                                <a href="{% url 'product:product_detail' product.category.slug product.slug %}" style="text-decoration: none;">
+                                    <div class="card">
+                                        <div class="images">
+                                            <img src="{% if product.image %}{{ products_with_discount.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ product.name }}">
+                                        </div>
+                                        <div class="descriptions">
+                                            <div class="text">
+                                                <h3>{{ product.name }}</h3>
+                                                <p>{{ product.card_description }}</p>
+                                            </div>
+                                            <div class="pirce">
+                                                <p>
+                                                    {% if product.discount > 0 %}
+                                                        от {{ product.get_discounted_price|floatformat:0 }}₽
+                                                    {% else %}
+                                                        от {{ product.price }}₽
+                                                    {% endif %}
+                                                </p>
+                                                <a href="#">→ Купить</a>
+                                                <button class="remove-from-cart" data-product-id="{{ product.id }}">Удалить</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <button class="arrow right-arrow">
+                            <img src="/static/img/main/Scroll (1).png" alt="">
+                        </button>
+                    </div>
+                </div>
+                {% elif products_in_cart %}
+                    <div class="product-wrapper">
+                        <div class="product-container">
+                            <div class="product">
+                                {% for product in products_in_cart %}
+                                    <a href="{% url 'product:product_detail' product.category.slug product.slug %}" style="text-decoration: none;">
+                                        <div class="card">
+                                            <div class="images">
+                                                <img src="{% if product.image %}{{ product.image.url }}{% else %}default-image.jpg{% endif %}" alt="{{ product.name }}">
+                                            </div>
+                                            <div class="descriptions">
+                                                <div class="text">
+                                                    <h3>{{ product.name }}</h3>
+                                                    <p>{{ product.card_description }}</p>
+                                                </div>
+                                                <div class="pirce">
+                                                    <p>
+                                                        {% if product.discount > 0 %}
+                                                            от {{ product.get_discounted_price|floatformat:0 }}₽
+                                                        {% else %}
+                                                            от {{ product.price }}₽
+                                                        {% endif %}
+                                                    </p>
+                                                    <a href="#">→ Купить</a>
+                                                    <button class="remove-from-cart" data-product-id="{{ product.id }}">Убрать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="card-none">Ваша корзина пуста.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/cart/cart.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
